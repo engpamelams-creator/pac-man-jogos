@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PAC-MAN</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Pacman</h1>
+  <div class="controls">
+    <button id="start-button">Iniciar Jogo</button>
+    <button id="restart-button" disabled>Reiniciar Jogo</button>
+  </div>
+  <div class="game-container">
+    <div class="game-messages">
+      <div id="game-over">GAME OVER</div>
+      <div id="you-win">YOU WIN!</div>
+    </div>
+    <canvas id="canvas"></canvas>
+    <div class="game-info">
+      <div class="score-container">
+        <h2>Pontuação: <span id="score">0</span></h2>
+        <h2>Maior Pontuação: <span id="high-score">0</span></h2>
+        <h2>Vidas: <span id="lives">3</span></h2>
+      </div>
+      <div class="instructions">
+        <h2>Controles</h2>
+        <p>Use as teclas de seta para mover</p>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:none;">
+      <img id="animation" src="animations.gif" width="140" height="20">
+      <img id="ghosts" src="ghost.png" width="140" height="20">
+  </div>
+
+  
+    <!-- Rodapé -->
+    <footer class="site-footer" role="contentinfo" aria-label="Rodapé do site">
+        <p>Desenvolvido por
+            <a class="dev-button" href="https://devpamelams.com.br/" target="_blank" rel="noopener noreferrer">Dev Pamela M.S</a>
+        </p>
+    </footer>
+
+  <!-- carregar definições antes do inicializador e usar defer -->
+  <script defer src="pacman.js"></script>
+  <script defer src="ghost.js"></script>
+  <script defer src="ui.js"></script>
+  <script defer src="game.js"></script>
+</body>
+</html>

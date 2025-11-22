@@ -1,0 +1,7 @@
+[build]
+  publish = "."
+  command = "" # sem build, site está pronto como está
+
+[dev]
+  command = ""
+  publish = "."

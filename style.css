@@ -1,0 +1,320 @@
+/* Reset / Variáveis */
+:root {
+  --bg-color: #02000b;
+  --bg-gradient: radial-gradient(circle at top, #2222ff33 0, #02000b 45%, #000 100%);
+  --text-color: #fff;
+  --accent-yellow: #ffe800;
+  --accent-red: #ff0033;
+  --accent-blue: #0066ff;
+  --panel-bg: #050509;
+  --panel-border: 2px solid var(--accent-yellow);
+  --font-retro: 'Press Start 2P', cursive;
+  --button-bg: var(--accent-yellow);
+  --button-hover-bg: var(--accent-red);
+}
+
+/* Fundo estilo arcade */
+body {
+  margin: 0;
+  padding: 20px;
+  font-family: var(--font-retro);
+  color: var(--text-color);
+  text-align: center;
+  background:
+    repeating-radial-gradient(circle at top, #111 0, #111 2px, #000 2px, #000 4px),
+    var(--bg-gradient);
+  background-attachment: fixed;
+}
+
+/* Título com efeito marquee / neon */
+h1 {
+  margin: 10px 0 15px;
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  color: var(--accent-yellow);
+  text-shadow:
+    0 0 5px #fff,
+    0 0 15px var(--accent-yellow),
+    0 0 30px var(--accent-red),
+    0 0 45px var(--accent-red);
+  letter-spacing: 4px;
+  animation: titleGlow 2.5s ease-in-out infinite alternate;
+}
+
+@keyframes titleGlow {
+  0% {
+    text-shadow:
+      0 0 5px #fff,
+      0 0 10px var(--accent-yellow),
+      0 0 20px var(--accent-red);
+  }
+  100% {
+    text-shadow:
+      0 0 10px #fff,
+      0 0 25px var(--accent-yellow),
+      0 0 45px var(--accent-red);
+  }
+}
+
+/* Barra de botões (como painel do arcade) */
+.controls {
+  margin: 0 auto 20px;
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: radial-gradient(circle at top, #333 0, #111 50%, #000 100%);
+  box-shadow:
+    0 0 8px #000,
+    0 0 18px rgba(0, 0, 0, 0.8),
+    0 0 26px rgba(0, 0, 0, 0.9);
+}
+
+.controls button {
+  font-family: var(--font-retro);
+  font-size: 0.8rem;
+  padding: 10px 18px;
+  background: var(--button-bg);
+  color: #000;
+  border: 3px solid var(--accent-red);
+  border-radius: 999px;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow:
+    0 0 6px #fff,
+    0 0 14px var(--accent-yellow);
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.15s ease,
+    box-shadow 0.2s ease;
+}
+
+.controls button:hover:not(:disabled) {
+  background-color: var(--button-hover-bg);
+  color: var(--accent-yellow);
+  transform: translateY(-2px) scale(1.05);
+  box-shadow:
+    0 0 8px #fff,
+    0 0 22px var(--accent-red);
+}
+
+.controls button:active:not(:disabled) {
+  transform: translateY(1px) scale(0.97);
+}
+
+.controls button:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Container principal com moldura de arcade */
+.game-container {
+  position: relative;
+  margin: 0 auto;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  padding: 20px;
+  max-width: 1100px;
+
+  background: linear-gradient(145deg, #05040c, #050814);
+  border-radius: 20px;
+  border: 3px solid #222;
+  box-shadow:
+    0 0 20px rgba(0, 0, 0, 0.9),
+    0 0 45px rgba(0, 0, 0, 0.9),
+    0 0 80px rgba(0, 0, 0, 1);
+}
+
+/* Borda luminosa externa, tipo máquina de fliper */
+.game-container::before {
+  content: "";
+  position: absolute;
+  inset: -5px;
+  border-radius: 26px;
+  border: 3px solid rgba(0, 102, 255, 0.6);
+  box-shadow:
+    0 0 20px rgba(0, 102, 255, 0.7),
+    0 0 35px rgba(0, 0, 0, 0.9);
+  pointer-events: none;
+}
+
+/* Em telas maiores, painel ao lado do jogo */
+@media (min-width: 900px) {
+  .game-container {
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+  }
+}
+
+/* TELA DO JOGO (canvas) – com CRT & neon */
+#canvas {
+  position: relative;
+  z-index: 1;
+  width: min(80vw, 560px);  /* tamanho visual */
+  height: auto;
+  display: block;
+  margin: 0 auto;
+
+  border: 10px solid var(--accent-blue);
+  border-radius: 18px;
+  background: #000;
+  box-shadow:
+    0 0 18px var(--accent-blue),
+    0 0 28px #ffffffaa;
+
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  overflow: hidden;
+}
+
+/* Efeito CRT: linhas + brilho sutil sobre o canvas */
+#canvas::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: 12px;
+  background:
+    linear-gradient(
+      rgba(255, 255, 255, 0.07),
+      rgba(0, 0, 0, 0.18)
+    ),
+    repeating-linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.09) 0,
+      rgba(255, 255, 255, 0.09) 1px,
+      transparent 1px,
+      transparent 3px
+    );
+  mix-blend-mode: soft-light;
+  opacity: 0.75;
+}
+
+/* Painel lateral (score, vidas etc) */
+.game-info {
+  text-align: left;
+  width: 100%;
+  max-width: 320px;
+  z-index: 2;
+}
+
+.score-container,
+.instructions {
+  background: radial-gradient(circle at top, #191929, #050509 60%);
+  padding: 18px 16px;
+  border-radius: 14px;
+  margin-bottom: 18px;
+  border: var(--panel-border);
+  box-shadow:
+    0 0 10px rgba(0, 0, 0, 0.8),
+    0 0 15px #000;
+  transition:
+    background-color 0.25s ease,
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.score-container:hover,
+.instructions:hover {
+  background-color: #121222;
+  transform: translateY(-3px);
+  box-shadow:
+    0 0 18px rgba(0, 0, 0, 1),
+    0 0 22px rgba(255, 232, 0, 0.35);
+}
+
+.game-info h2 {
+  color: var(--accent-yellow);
+  font-size: 0.95rem;
+  margin: 0 0 8px;
+}
+
+.game-info p {
+  margin: 0;
+  font-size: 0.75rem;
+}
+
+/* Mensagens de GAME OVER / YOU WIN */
+.game-messages {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: min(90vw, 420px);
+  padding: 25px 20px;
+  background: radial-gradient(circle at top, #550000, #000);
+  border-radius: 16px;
+  border: 3px solid var(--accent-red);
+  box-shadow:
+    0 0 18px var(--accent-red),
+    0 0 36px rgba(0, 0, 0, 0.9);
+  z-index: 5;
+}
+
+#game-over,
+#you-win {
+  font-size: 2.2rem;
+  margin-bottom: 18px;
+  letter-spacing: 3px;
+  text-shadow:
+    0 0 6px #000,
+    0 0 16px #000,
+    0 0 26px #000;
+}
+
+#game-over {
+  color: var(--accent-red);
+}
+
+#you-win {
+  color: #00ff6a;
+}
+
+/* Rodapé arcade */
+.site-footer{
+  margin-top:24px;
+  text-align:center;
+  color: rgba(255,255,255,0.85);
+  font-family: var(--font-retro);
+  z-index: 10;
+}
+
+.site-footer p{
+  margin: 8px 0 0;
+  font-size: 0.82rem;
+  letter-spacing: 0.6px;
+}
+
+/* botão-link do dev */
+.dev-button{
+  display:inline-block;
+  margin-left:8px;
+  padding:6px 12px;
+  border-radius:10px;
+  background: linear-gradient(90deg, var(--accent-yellow), #ffb84d);
+  color:#081018;
+  text-decoration:none;
+  border:2px solid rgba(255,80,60,0.9);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.6), 0 0 14px rgba(255,200,0,0.12);
+  transition: transform 120ms ease, filter 120ms ease;
+  font-weight:700;
+}
+
+.dev-button:hover{
+  transform: translateY(-3px) scale(1.03);
+  filter: brightness(1.04);
+}
+
+/* Fonte retro */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
